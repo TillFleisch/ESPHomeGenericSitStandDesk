@@ -4,6 +4,8 @@ I have one of those generic relatively cheap Sit Stand Desks. In an effort to mo
 
 In addition to reporting the height, the ESP can also send commands to activate saved memory profiles or move the desk manually.
 
+In combination with a chair occupancy sensor like [this one](https://community.home-assistant.io/t/diy-zigbee-chair-occupancy-sensor/239517), you can move the desk into sitting position upon taking a seat.
+
 This is a custom Component for [ESPHome](https://esphome.io/) based on the [ESPHome UART Bus](https://esphome.io/components/uart.html).
 
 ## Requirements
