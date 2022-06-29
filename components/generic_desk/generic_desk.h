@@ -23,7 +23,7 @@ namespace esphome
             void dump_config() override;
             void register_sensor(sensor::Sensor *obj) { this->height_sensors.push_back(obj); }
             void register_binary_sensor(binary_sensor::BinarySensor *obj) { this->moving_sensors.push_back(obj); }
-            void set_base_height(uint8_t base_height) { this->base_height = base_height; }
+            void set_base_height(float base_height) { this->base_height = base_height; }
             void set_correction_term(float correction_term) { this->correction_term = correction_term; }
             void add_button(memory_button::MemoryButton *button) { button->set_uart_device(static_cast<uart::UARTDevice *>(this)); }
             void add_switch(desk_switch::DeskSwitch *switch_)
