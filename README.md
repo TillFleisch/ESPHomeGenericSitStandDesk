@@ -15,21 +15,69 @@ This is a custom Component for [ESPHome](https://esphome.io/) based on the [ESPH
 - Home Assistant Core 2021.12 or higher
 
 ## Usage
-
-- Clone this repo
-- Copy the components you need from [desk.yaml](desk.yaml)
-
 ```yaml
-- platform: custom
-  lambda: |-
-    auto desk_sensor = new UartDeskSensor(id(uart_bus), <base height>, <correction factor>);
-    App.register_component(desk_sensor);
-    return {desk_sensor->desk_height, desk_sensor->desk_is_moving};
-```
-- replace `<base height>` with your desks lowest desk height
-- (optional) replace `<correction factor (optional)>` with a correction factor, otherwise remove this part
-- Install and run on a ESP of your choice
+external_components:
+  - source: github://TillFleisch/ESPHomeGenericSitStandDesk@main
 
+
+uart:
+  id: uart_bus
+  tx_pin: TX
+  rx_pin: RX
+  baud_rate: 57600
+
+generic_desk:
+  id: desk1
+  uart_id: uart_bus
+  # The Desks height measured in the lowest position
+  base_height: 66.4
+  #Optional correction factor, in case the height does not scale properly
+  correction_term: 1.24836
+
+sensor:
+  - platform: desk_height_sensor
+    desk_id: desk1
+    id: desk_height
+    name: "Desk Height"
+
+binary_sensor:
+ - platform: desk_is_moving_sensor
+   desk_id: desk1
+   id: desk_is_moving
+   name: "Desk is Moving"
+
+switch:
+  - platform: desk_switch
+    desk_id: desk1
+    name: "Up"
+    direction: true
+
+  - platform: desk_switch
+    desk_id: desk1
+    name: "Down"
+    direction: false  
+
+button:
+  - platform: desk_memory_button
+    desk_id: desk1
+    name: "M1"
+    memory_id: 1
+
+  - platform: desk_memory_button
+    desk_id: desk1
+    name: "M2"
+    memory_id: 2
+
+  - platform: desk_memory_button
+    desk_id: desk1
+    name: "M3"
+    memory_id: 3
+
+  - platform: desk_memory_button
+    desk_id: desk1
+    name: "M4"
+    memory_id: 4
+```
 An example configuration can be found [here](desk.yaml).
 
 ## Entities

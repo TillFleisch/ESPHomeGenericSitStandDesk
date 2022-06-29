@@ -2,8 +2,9 @@ esphome:
   name: desk
   platform: ESP8266
   board: esp01_1m
-  includes:
-    - uart_desk_sensor.h
+
+external_components:
+  - source: github://TillFleisch/ESPHomeGenericSitStandDesk@main
 
 # Enable logging
 logger:
@@ -32,63 +33,56 @@ wifi:
 
 captive_portal:
 
-
-switch:
-  # Move Desk Upward
-  - platform: uart
-    name: "Up"
-    data: [0xea, 0xf5, 0x11, 0x00, 0x00, 0x11, 0xc5, 0x14]
-    send_every: 0.2s
-    # Send a Idle command to cancle the execution of the current command.
-    on_turn_off:
-      - uart.write: [0xea, 0xf5, 0x22, 0x00, 0x00, 0x22, 0x8a, 0x45]  
-
-  # Move Desk Upward  
-  - platform: uart
-    name: "Down"
-    data: [0xea, 0xf5, 0x33, 0x00, 0x00, 0x33, 0x4f, 0x75]
-    send_every: 0.2s
-    # Send a Idle command to cancle the execution of the current command.
-    on_turn_off:
-      - uart.write: [0xea, 0xf5, 0x22, 0x00, 0x00, 0x22, 0x8a, 0x45]  
-
-button:
-  # Activate saved height 1
-  - platform: template
-    name: "M1"
-    on_press:
-      - uart.write: [0xea, 0xf5, 0x41, 0x00, 0x00, 0x41, 0xd4, 0x28]
-
-  # Activate saved height 2
-  - platform: template
-    name: "M2"
-    on_press:
-      - uart.write: [0xea, 0xf5, 0x42, 0x00, 0x00, 0x42, 0x94, 0x6d]
-
-  # Activate saved height 3
-  - platform: template
-    name: "M3"
-    on_press:
-      - uart.write: [0xea, 0xf5, 0x43, 0x00, 0x00, 0x43, 0x54, 0x51]
-
-  # Activate saved height 4
-  - platform: template
-    name: "M4"
-    on_press:
-      - uart.write: [0xea, 0xf5, 0x44, 0x00, 0x00, 0x44, 0x14, 0xe7]
+generic_desk:
+  id: desk1
+  uart_id: uart_bus
+  # The Desks height measured in the lowest position
+  base_height: 66.4
+  #Optional correction factor, in case the height does not scale properly
+  correction_term: 1.24836
 
 sensor:
-# Deks height sensor
-- platform: custom
-  lambda: |-
-    auto desk_sensor = new UartDeskSensor(id(uart_bus), 66.4, 1.24836);
-    App.register_component(desk_sensor);
-    return {desk_sensor->desk_height, desk_sensor->desk_is_moving};
+  - platform: desk_height_sensor
+    desk_id: desk1
+    id: desk_height
+    name: "Desk Height"
 
-  sensors:
-    - name: "Desk Height"
-      unit_of_measurement: "cm"
-      accuracy_decimals: 1
-    - name: "Desk is moving"
+binary_sensor:
+ - platform: desk_is_moving_sensor
+   desk_id: desk1
+   id: desk_is_moving
+   name: "Desk is Moving"
+
+switch:
+  - platform: desk_switch
+    desk_id: desk1
+    name: "Up"
+    direction: true
+
+  - platform: desk_switch
+    desk_id: desk1
+    name: "Down"
+    direction: false  
+
+button:
+  - platform: desk_memory_button
+    desk_id: desk1
+    name: "M1"
+    memory_id: 1
+
+  - platform: desk_memory_button
+    desk_id: desk1
+    name: "M2"
+    memory_id: 2
+
+  - platform: desk_memory_button
+    desk_id: desk1
+    name: "M3"
+    memory_id: 3
+
+  - platform: desk_memory_button
+    desk_id: desk1
+    name: "M4"
+    memory_id: 4
 
 
