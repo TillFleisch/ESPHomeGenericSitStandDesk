@@ -4,6 +4,8 @@
 #include "esphome/components/button/button.h"
 #include "esphome/components/uart/uart.h"
 
+#define MESSAGE_REPETITIONS 5
+
 namespace esphome
 {
     namespace memory_button
