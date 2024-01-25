@@ -5,10 +5,7 @@ from esphome.components.uart import CONF_UART_ID, UARTComponent
 from esphome.const import CONF_ID
 
 DEPENDENCIES = ["uart"]
-AUTO_LOAD = [
-    "desk_height_sensor",
-    "sensor",
-]
+
 MULTI_CONF = True
 
 CONF_DESK_ID = "desk_id"

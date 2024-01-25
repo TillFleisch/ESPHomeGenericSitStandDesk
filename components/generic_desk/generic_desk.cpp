@@ -39,8 +39,10 @@ namespace esphome
                 if (height != last_height)
                 {
                     last_height = height;
+#ifdef USE_SENSOR
                     for (auto *height_sensor : this->height_sensors)
                         height_sensor->publish_state(height);
+#endif
 #ifdef USE_BINARY_SENSOR
                     for (auto *moving_sensor : this->moving_sensors)
                         moving_sensor->publish_state(true);
@@ -82,8 +84,10 @@ namespace esphome
         void GenericDesk::dump_config()
         {
             ESP_LOGCONFIG(TAG, "Generic SitStand Desk");
+#ifdef USE_SENSOR
             for (auto *height_sensor : this->height_sensors)
                 LOG_SENSOR("", "Height sensor: ", height_sensor);
+#endif
 #ifdef USE_BINARY_SENSOR
             for (auto *moving_sensor : this->moving_sensors)
                 LOG_BINARY_SENSOR("", "Is Moving binary sensor: ", moving_sensor);

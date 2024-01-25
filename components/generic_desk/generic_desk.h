@@ -2,7 +2,9 @@
 
 #include "esphome/core/component.h"
 #include "esphome/components/uart/uart.h"
+#ifdef USE_SENSOR
 #include "esphome/components/sensor/sensor.h"
+#endif
 #ifdef USE_BINARY_SENSOR
 #include "esphome/components/binary_sensor/binary_sensor.h"
 #endif
@@ -20,14 +22,16 @@ namespace esphome
     namespace generic_desk
     {
 
-        class GenericDesk : public uart::UARTDevice, public sensor::Sensor, public PollingComponent
+        class GenericDesk : public uart::UARTDevice, public PollingComponent
         {
         public:
             void setup() override;
             void loop() override;
             void update() override;
             void dump_config() override;
+#ifdef USE_SENSOR
             void register_sensor(sensor::Sensor *obj) { this->height_sensors.push_back(obj); }
+#endif
 #ifdef USE_BINARY_SENSOR
             void register_binary_sensor(binary_sensor::BinarySensor *obj) { this->moving_sensors.push_back(obj); }
 #endif
@@ -46,7 +50,9 @@ namespace esphome
 
         private:
             uint16_t crc16(const uint8_t *data, uint8_t len);
+#ifdef USE_SENSOR
             std::vector<sensor::Sensor *> height_sensors;
+#endif
 #ifdef USE_BINARY_SENSOR
             std::vector<binary_sensor::BinarySensor *> moving_sensors;
 #endif
@@ -75,7 +81,7 @@ namespace esphome
             int desk_moving_debounce_counter = 0;
 
             /**
-             * @breif The Desks current height
+             * @brief The Desks current height
              *
              * */
             float height = 0.0;
