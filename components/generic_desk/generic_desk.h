@@ -3,7 +3,9 @@
 #include "esphome/core/component.h"
 #include "esphome/components/uart/uart.h"
 #include "esphome/components/sensor/sensor.h"
+#ifdef USE_BINARY_SENSOR
 #include "esphome/components/binary_sensor/binary_sensor.h"
+#endif
 #ifdef USE_BUTTON
 #include "./button/desk_memory_button.h"
 #endif
@@ -26,7 +28,9 @@ namespace esphome
             void update() override;
             void dump_config() override;
             void register_sensor(sensor::Sensor *obj) { this->height_sensors.push_back(obj); }
+#ifdef USE_BINARY_SENSOR
             void register_binary_sensor(binary_sensor::BinarySensor *obj) { this->moving_sensors.push_back(obj); }
+#endif
             void set_base_height(float base_height) { this->base_height = base_height; }
             void set_correction_term(float correction_term) { this->correction_term = correction_term; }
 #ifdef USE_BUTTON
@@ -43,7 +47,9 @@ namespace esphome
         private:
             uint16_t crc16(const uint8_t *data, uint8_t len);
             std::vector<sensor::Sensor *> height_sensors;
+#ifdef USE_BINARY_SENSOR
             std::vector<binary_sensor::BinarySensor *> moving_sensors;
+#endif
 #ifdef USE_SWITCH
             std::vector<desk_switch::DeskSwitch *> desk_switches;
 #endif
