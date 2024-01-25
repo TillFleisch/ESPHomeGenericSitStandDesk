@@ -53,9 +53,11 @@ namespace esphome
                     for (auto *moving_sensor : this->moving_sensors)
                         moving_sensor->publish_state(false);
 
+#ifdef USE_SWITCH
                     // Reset switches
                     for (auto *desk_switch : this->desk_switches)
                         desk_switch->publish_state(false);
+#endif
 
                     desk_moving_debounce_counter++;
                 }

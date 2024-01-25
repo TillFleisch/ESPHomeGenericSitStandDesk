@@ -5,7 +5,9 @@
 #include "esphome/components/sensor/sensor.h"
 #include "esphome/components/binary_sensor/binary_sensor.h"
 #include "../desk_memory_button/desk_memory_button.h"
-#include "../desk_switch/desk_switch.h"
+#ifdef USE_SWITCH
+#include "./switch/desk_switch.h"
+#endif
 
 #define DESK_MOVING_DEBOUNCE_THRESHOLD 3
 
@@ -26,17 +28,21 @@ namespace esphome
             void set_base_height(float base_height) { this->base_height = base_height; }
             void set_correction_term(float correction_term) { this->correction_term = correction_term; }
             void add_button(memory_button::MemoryButton *button) { button->set_uart_device(static_cast<uart::UARTDevice *>(this)); }
+#ifdef USE_SWITCH
             void add_switch(desk_switch::DeskSwitch *switch_)
             {
                 this->desk_switches.push_back(switch_);
                 switch_->set_uart_device(static_cast<uart::UARTDevice *>(this));
             }
+#endif
 
         private:
             uint16_t crc16(const uint8_t *data, uint8_t len);
             std::vector<sensor::Sensor *> height_sensors;
             std::vector<binary_sensor::BinarySensor *> moving_sensors;
+#ifdef USE_SWITCH
             std::vector<desk_switch::DeskSwitch *> desk_switches;
+#endif
 
             /**
              * @brief The desks base height in CM. Measured in the lowest position.

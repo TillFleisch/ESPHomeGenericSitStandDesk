@@ -7,13 +7,11 @@ from esphome.const import CONF_ID
 DEPENDENCIES = ["uart"]
 AUTO_LOAD = [
     "desk_memory_button",
-    "desk_switch",
     "desk_height_sensor",
     "desk_is_moving_sensor",
     "sensor",
     "binary_sensor",
     "button",
-    "switch",
 ]
 MULTI_CONF = True
 
