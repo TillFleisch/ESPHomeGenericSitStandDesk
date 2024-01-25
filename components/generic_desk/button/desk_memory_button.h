@@ -15,7 +15,7 @@ namespace esphome
         {
         public:
             void dump_config() override;
-            void set_memory_id(int id) { this->memory_id = id - 1; };
+            void set_memory_id(int id) { this->memory_id = id; };
             void set_uart_device(uart::UARTDevice *uart_device) { this->uart_device = uart_device; };
 
         protected:

@@ -56,31 +56,19 @@ binary_sensor:
 switch:
   - platform: generic_desk
     desk_id: desk1
-    name: "Up"
-    direction: true
-
-  - platform: generic_desk
-    desk_id: desk1
-    name: "Down"
-    direction: false
+    up:
+      name: "Up"
+    down:
+      name: "Down"
 
 button:
   - platform: generic_desk
     desk_id: desk1
-    name: "M1"
-    memory_id: 1
-
-  - platform: generic_desk
-    desk_id: desk1
-    name: "M2"
-    memory_id: 2
-
-  - platform: generic_desk
-    desk_id: desk1
-    name: "M3"
-    memory_id: 3
-
-  - platform: generic_desk
-    desk_id: desk1
-    name: "M4"
-    memory_id: 4
+    M1:
+      name: "M1"
+    M2:
+      name: "M2"
+    M3:
+      name: "M3"
+    M4:
+      name: "M4"

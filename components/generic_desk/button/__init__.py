@@ -7,25 +7,44 @@ from .. import CONF_DESK_ID, GenericDesk
 
 DEPENDENCIES = ["generic_desk"]
 
-CONF_MEMORY_BUTTON_ID = "memory_id"
+CONF_MEMORY_ID_1 = "M1"
+CONF_MEMORY_ID_2 = "M2"
+CONF_MEMORY_ID_3 = "M3"
+CONF_MEMORY_ID_4 = "M4"
+
+ID_CONFIGS = [
+    CONF_MEMORY_ID_1,
+    CONF_MEMORY_ID_2,
+    CONF_MEMORY_ID_3,
+    CONF_MEMORY_ID_4,
+]
 
 memory_button_ns = cg.esphome_ns.namespace("memory_button")
 MemoryButton = memory_button_ns.class_("MemoryButton", button.Button, cg.Component)
 
-CONFIG_SCHEMA = button.BUTTON_SCHEMA.extend(
-    {
-        cv.GenerateID(): cv.declare_id(MemoryButton),
-        cv.GenerateID(CONF_DESK_ID): cv.use_id(GenericDesk),
-        cv.Required(CONF_MEMORY_BUTTON_ID): cv.int_,
-    }
+BUTTON_CONFIG = button.BUTTON_SCHEMA.extend(
+    {cv.GenerateID(): cv.declare_id(MemoryButton)}
 ).extend(cv.COMPONENT_SCHEMA)
+
+CONFIG_SCHEMA = cv.All(
+    cv.Schema(
+        {
+            cv.GenerateID(CONF_DESK_ID): cv.use_id(GenericDesk),
+            cv.Optional(CONF_MEMORY_ID_1): BUTTON_CONFIG,
+            cv.Optional(CONF_MEMORY_ID_2): BUTTON_CONFIG,
+            cv.Optional(CONF_MEMORY_ID_3): BUTTON_CONFIG,
+            cv.Optional(CONF_MEMORY_ID_4): BUTTON_CONFIG,
+        }
+    ),
+    cv.has_at_least_one_key(*ID_CONFIGS),
+)
 
 
 async def to_code(config):
     parent = await cg.get_variable(config[CONF_DESK_ID])
-    var = cg.new_Pvariable(config[CONF_ID])
-    await cg.register_component(var, config)
-    await button.register_button(var, config)
 
-    cg.add(var.set_memory_id(config[CONF_MEMORY_BUTTON_ID]))
-    cg.add(parent.add_button(var))
+    for id, config_id in enumerate(ID_CONFIGS):
+        if button_config := config.get(config_id):
+            var = await button.new_button(button_config)
+            cg.add(var.set_memory_id(id))
+            cg.add(parent.add_button(var))
