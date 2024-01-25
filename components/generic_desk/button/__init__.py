@@ -3,7 +3,7 @@ import esphome.config_validation as cv
 from esphome.components import button
 from esphome.const import CONF_ID
 
-from ..generic_desk import CONF_DESK_ID, GenericDesk
+from .. import CONF_DESK_ID, GenericDesk
 
 DEPENDENCIES = ["generic_desk"]
 

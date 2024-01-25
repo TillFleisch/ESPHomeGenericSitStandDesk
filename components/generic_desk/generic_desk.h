@@ -4,7 +4,9 @@
 #include "esphome/components/uart/uart.h"
 #include "esphome/components/sensor/sensor.h"
 #include "esphome/components/binary_sensor/binary_sensor.h"
-#include "../desk_memory_button/desk_memory_button.h"
+#ifdef USE_BUTTON
+#include "./button/desk_memory_button.h"
+#endif
 #ifdef USE_SWITCH
 #include "./switch/desk_switch.h"
 #endif
@@ -27,7 +29,9 @@ namespace esphome
             void register_binary_sensor(binary_sensor::BinarySensor *obj) { this->moving_sensors.push_back(obj); }
             void set_base_height(float base_height) { this->base_height = base_height; }
             void set_correction_term(float correction_term) { this->correction_term = correction_term; }
+#ifdef USE_BUTTON
             void add_button(memory_button::MemoryButton *button) { button->set_uart_device(static_cast<uart::UARTDevice *>(this)); }
+#endif
 #ifdef USE_SWITCH
             void add_switch(desk_switch::DeskSwitch *switch_)
             {
