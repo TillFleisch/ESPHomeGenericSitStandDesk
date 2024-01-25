@@ -4,19 +4,18 @@ from esphome.components import button
 from esphome.const import CONF_ID
 from ..generic_desk import GenericDesk, CONF_DESK_ID
 
-DEPENDENCIES = ['generic_desk']
+DEPENDENCIES = ["generic_desk"]
 
-CONF_MEMORY_BUTTON_ID = 'memory_id'
+CONF_MEMORY_BUTTON_ID = "memory_id"
 
-memory_button_ns = cg.esphome_ns.namespace('memory_button')
-MemoryButton = memory_button_ns.class_(
-    "MemoryButton", button.Button, cg.Component)
+memory_button_ns = cg.esphome_ns.namespace("memory_button")
+MemoryButton = memory_button_ns.class_("MemoryButton", button.Button, cg.Component)
 
 CONFIG_SCHEMA = button.BUTTON_SCHEMA.extend(
     {
         cv.GenerateID(): cv.declare_id(MemoryButton),
         cv.GenerateID(CONF_DESK_ID): cv.use_id(GenericDesk),
-        cv.Required(CONF_MEMORY_BUTTON_ID): cv.int_
+        cv.Required(CONF_MEMORY_BUTTON_ID): cv.int_,
     }
 ).extend(cv.COMPONENT_SCHEMA)
 
