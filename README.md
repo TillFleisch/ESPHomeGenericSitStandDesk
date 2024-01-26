@@ -15,6 +15,7 @@ This is a custom Component for [ESPHome](https://esphome.io/) based on the [ESPH
 - Home Assistant Core 2021.12 or higher
 
 ## Usage
+
 ```yaml
 external_components:
   - source: github://TillFleisch/ESPHomeGenericSitStandDesk@main
@@ -35,70 +36,84 @@ generic_desk:
   correction_term: 1.24836
 
 sensor:
-  - platform: desk_height_sensor
+  - platform: generic_desk
     desk_id: desk1
     id: desk_height
     name: "Desk Height"
 
 binary_sensor:
- - platform: desk_is_moving_sensor
-   desk_id: desk1
-   id: desk_is_moving
-   name: "Desk is Moving"
+  - platform: generic_desk
+    desk_id: desk1
+    id: desk_is_moving
+    name: "Desk is Moving"
 
 switch:
-  - platform: desk_switch
+  - platform: generic_desk
     desk_id: desk1
-    name: "Up"
-    direction: true
-
-  - platform: desk_switch
-    desk_id: desk1
-    name: "Down"
-    direction: false  
+    up:
+      name: "Up"
+    down:
+      name: "Down"
 
 button:
-  - platform: desk_memory_button
+  - platform: generic_desk
     desk_id: desk1
-    name: "M1"
-    memory_id: 1
-
-  - platform: desk_memory_button
-    desk_id: desk1
-    name: "M2"
-    memory_id: 2
-
-  - platform: desk_memory_button
-    desk_id: desk1
-    name: "M3"
-    memory_id: 3
-
-  - platform: desk_memory_button
-    desk_id: desk1
-    name: "M4"
-    memory_id: 4
+    M1:
+      name: "M1"
+    M2:
+      name: "M2"
+    M3:
+      name: "M3"
+    M4:
+      name: "M4"
 ```
+
 An example configuration can be found [here](desk.yaml).
 
-## Entities
-This Component can provide the following entities:
+## Generic Desk
 
-**Controls:**
-- M1
-- M2 
-- M3
-- M4
-- Up
-- Down
+The desks hub component to which other components refer.
 
-**Sensors:**
-- height
-- is moving
+- **id**(**Required**, string): Controller ID which will be used by other components to refer to this desk.
+- **display_uart**(**Required**, string): ID of the UART-Component connected desk-controller.
+- **base_height**(**Required**, float): The Desks height measured in the lowest position in cm.
+- **correction_term**(**Optional**, float): Optional correction factor, in case the height does not scale properly
 
+## Sensor
+
+A sensor which reports the current height of the desk in cm.
+
+- **desk_id**(**Required**, string): The desk controllers id to which this sensor belongs.
+- All other options from [Sensor](https://esphome.io/components/sensor/index.html#base-sensor-configuration)
+
+## Binary Sensor
+
+A binary sensor which reports if the desk is currently moving.
+
+- **desk_id**(**Required**, string): The desk controllers id to which this binary sensor belongs.
+- All other options from [Binary Sensor](https://esphome.io/components/binary_sensor/index.html#base-binary-sensor-configuration)
+
+## Switch
+
+Switches which control the desks movement.
+
+- **desk_id**(**Required**, string): The desk controllers id to which switches belongs.
+- **up**(**Optional**): Moves the desk upwards. May contain all other options from [Switch](https://esphome.io/components/switch/index.html#base-switch-configuration).
+- **down**(**Optional**): Moves the desk downwards. May contain all other options from [Switch](https://esphome.io/components/switch/index.html#base-switch-configuration).
+
+## Button
+
+Buttons which select a preset on the desks controller.
+
+- **desk_id**(**Required**, string): The desk controllers id to which buttons belongs.
+- **M1**(**Optional**): Activates the `M1` preset. May contain all other options from [Button](https://esphome.io/components/button/index.html#base-button-configuration).
+- **M2**(**Optional**): Activates the `M2` preset. May contain all other options from [Button](https://esphome.io/components/button/index.html#base-button-configuration).
+- **M3**(**Optional**): Activates the `M3` preset. May contain all other options from [Button](https://esphome.io/components/button/index.html#base-button-configuration).
+- **M4**(**Optional**): Activates the `M4` preset. May contain all other options from [Button](https://esphome.io/components/button/index.html#base-button-configuration).
 
 ## Wiring
 
-On my particular model the Handset is connected via a RJ-45 connector. 
+On my particular model the Handset is connected via a RJ-45 connector.
 
 Control Box|Handset
 :-:|:-:
@@ -117,9 +132,9 @@ GND ------- 6 (Green)           - GND
 TX  ------- 7 (Brown/White)     - RX
 RX  ------- 8 (Brown)           - TX
 ```
+
 Be aware that most ESPs run on 3.3v!
 
-
 ## Communication
-For information regarding the communication between the Controller and Handset look [here](communication.md). 
 
+For information regarding the communication between the Controller and Handset look [here](communication.md).

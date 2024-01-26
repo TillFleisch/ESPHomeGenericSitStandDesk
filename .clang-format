@@ -4,6 +4,7 @@ NamespaceIndentation: All
 AccessModifierOffset: -4
 BreakBeforeBraces: Allman
 AllowShortIfStatementsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: false
 IndentCaseLabels: false
 SortIncludes: false
 ColumnLimit: 0

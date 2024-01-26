@@ -39,23 +39,32 @@ namespace esphome
                 if (height != last_height)
                 {
                     last_height = height;
+#ifdef USE_SENSOR
                     for (auto *height_sensor : this->height_sensors)
                         height_sensor->publish_state(height);
+#endif
+#ifdef USE_BINARY_SENSOR
                     for (auto *moving_sensor : this->moving_sensors)
                         moving_sensor->publish_state(true);
+#endif
+
                     desk_moving_debounce_counter = 0;
                 }
 
                 // Debounce desk is moving to prevent state flickering
                 if (desk_moving_debounce_counter == DESK_MOVING_DEBOUNCE_THRESHOLD)
                 {
+#ifdef USE_BINARY_SENSOR
                     // Set all sensors to false
                     for (auto *moving_sensor : this->moving_sensors)
                         moving_sensor->publish_state(false);
+#endif
 
+#ifdef USE_SWITCH
                     // Reset switches
                     for (auto *desk_switch : this->desk_switches)
                         desk_switch->publish_state(false);
+#endif
 
                     desk_moving_debounce_counter++;
                 }
@@ -75,10 +84,14 @@ namespace esphome
         void GenericDesk::dump_config()
         {
             ESP_LOGCONFIG(TAG, "Generic SitStand Desk");
+#ifdef USE_SENSOR
             for (auto *height_sensor : this->height_sensors)
                 LOG_SENSOR("", "Height sensor: ", height_sensor);
+#endif
+#ifdef USE_BINARY_SENSOR
             for (auto *moving_sensor : this->moving_sensors)
                 LOG_BINARY_SENSOR("", "Is Moving binary sensor: ", moving_sensor);
+#endif
         }
 
         /**

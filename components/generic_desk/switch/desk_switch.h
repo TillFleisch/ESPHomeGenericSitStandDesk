@@ -16,8 +16,14 @@ namespace esphome
             void setup() override;
             void write_state(bool state) override;
             void dump_config() override;
-            void set_direction(bool direction) { this->direction = direction; };
-            void set_uart_device(uart::UARTDevice *uart_device) { this->uart_device = uart_device; };
+            void set_direction(bool direction)
+            {
+                this->direction = direction;
+            };
+            void set_uart_device(uart::UARTDevice *uart_device)
+            {
+                this->uart_device = uart_device;
+            };
 
         protected:
             uint32_t last_send = 0;

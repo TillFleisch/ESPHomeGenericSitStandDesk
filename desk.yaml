@@ -42,45 +42,33 @@ generic_desk:
   correction_term: 1.24836
 
 sensor:
-  - platform: desk_height_sensor
+  - platform: generic_desk
     desk_id: desk1
     id: desk_height
     name: "Desk Height"
 
 binary_sensor:
-  - platform: desk_is_moving_sensor
+  - platform: generic_desk
     desk_id: desk1
     id: desk_is_moving
     name: "Desk is Moving"
 
 switch:
-  - platform: desk_switch
+  - platform: generic_desk
     desk_id: desk1
-    name: "Up"
-    direction: true
-
-  - platform: desk_switch
-    desk_id: desk1
-    name: "Down"
-    direction: false
+    up:
+      name: "Up"
+    down:
+      name: "Down"
 
 button:
-  - platform: desk_memory_button
+  - platform: generic_desk
     desk_id: desk1
-    name: "M1"
-    memory_id: 1
-
-  - platform: desk_memory_button
-    desk_id: desk1
-    name: "M2"
-    memory_id: 2
-
-  - platform: desk_memory_button
-    desk_id: desk1
-    name: "M3"
-    memory_id: 3
-
-  - platform: desk_memory_button
-    desk_id: desk1
-    name: "M4"
-    memory_id: 4
+    M1:
+      name: "M1"
+    M2:
+      name: "M2"
+    M3:
+      name: "M3"
+    M4:
+      name: "M4"
