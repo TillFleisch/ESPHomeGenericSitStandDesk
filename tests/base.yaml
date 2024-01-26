@@ -1,0 +1,24 @@
+esphome:
+  name: desk
+
+esp8266:
+  board: esp01_1m
+
+external_components:
+  - source:
+      type: local
+      path: ../components
+
+logger:
+  baud_rate: 0
+
+uart:
+  id: uart_bus
+  tx_pin: TX
+  rx_pin: RX
+  baud_rate: 57600
+
+generic_desk:
+  id: desk1
+  uart_id: uart_bus
+  base_height: 66.4

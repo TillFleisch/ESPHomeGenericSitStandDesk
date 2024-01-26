@@ -71,5 +71,5 @@ namespace esphome
             float last_height = 0.0;
         };
 
-    } // namespace empty_sensor
+    } // namespace generic_desk
 } // namespace esphome
