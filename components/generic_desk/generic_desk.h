@@ -30,15 +30,30 @@ namespace esphome
             void update() override;
             void dump_config() override;
 #ifdef USE_SENSOR
-            void register_sensor(sensor::Sensor *obj) { this->height_sensors.push_back(obj); }
+            void register_sensor(sensor::Sensor *obj)
+            {
+                this->height_sensors.push_back(obj);
+            }
 #endif
 #ifdef USE_BINARY_SENSOR
-            void register_binary_sensor(binary_sensor::BinarySensor *obj) { this->moving_sensors.push_back(obj); }
+            void register_binary_sensor(binary_sensor::BinarySensor *obj)
+            {
+                this->moving_sensors.push_back(obj);
+            }
 #endif
-            void set_base_height(float base_height) { this->base_height = base_height; }
-            void set_correction_term(float correction_term) { this->correction_term = correction_term; }
+            void set_base_height(float base_height)
+            {
+                this->base_height = base_height;
+            }
+            void set_correction_term(float correction_term)
+            {
+                this->correction_term = correction_term;
+            }
 #ifdef USE_BUTTON
-            void add_button(memory_button::MemoryButton *button) { button->set_uart_device(static_cast<uart::UARTDevice *>(this)); }
+            void add_button(memory_button::MemoryButton *button)
+            {
+                button->set_uart_device(static_cast<uart::UARTDevice *>(this));
+            }
 #endif
 #ifdef USE_SWITCH
             void add_switch(desk_switch::DeskSwitch *switch_)
