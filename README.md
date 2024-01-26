@@ -32,7 +32,7 @@ generic_desk:
   uart_id: uart_bus
   # The Desks height measured in the lowest position
   base_height: 66.4
-  # Optional correction factor, in case the height does not scale properly
+  #Optional correction factor, in case the height does not scale properly
   correction_term: 1.24836
 
 sensor:
@@ -42,10 +42,10 @@ sensor:
     name: "Desk Height"
 
 binary_sensor:
- - platform: generic_desk
-   desk_id: desk1
-   id: desk_is_moving
-   name: "Desk is Moving"
+  - platform: generic_desk
+    desk_id: desk1
+    id: desk_is_moving
+    name: "Desk is Moving"
 
 switch:
   - platform: generic_desk
