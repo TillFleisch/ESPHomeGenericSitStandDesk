@@ -1,4 +1,4 @@
-# ESPHomeGenericSitStandDesk
+# ESPHomeGenericSitStandDesk [![CI](https://github.com/TillFleisch/ESPHomeGenericSitStandDesk/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/TillFleisch/ESPHomeGenericSitStandDesk/actions/workflows/ci.yaml)
 
 I have one of those generic relatively cheap Sit Stand Desks. In an effort to monitor my desk usage I developed this overkill solution for integrating the desk into a smart home like [Home Assistant](https://www.home-assistant.io/).
 
