@@ -1,12 +1,14 @@
 esphome:
   name: desk
-  platform: ESP8266
+
+esp8266:
   board: esp01_1m
 
 external_components:
-  - source: github://TillFleisch/ESPHomeGenericSitStandDesk@main
+  - source:
+      type: local
+      path: ../components
 
-# Enable logging
 logger:
   baud_rate: 0
 
@@ -16,29 +18,10 @@ uart:
   rx_pin: RX
   baud_rate: 57600
 
-# Enable Home Assistant API
-api:
-
-ota:
-  password: "HaHaGetRickRolled"
-
-wifi:
-  ssid: !secret WiFi_Name
-  password: !secret WiFi_Password
-
-  # Enable fallback hotspot (captive portal) in case wifi connection fails
-  ap:
-    ssid: "Desk Fallback Hotspot"
-    password: "dQw4w9WgXcQ"
-
-captive_portal:
-
 generic_desk:
   id: desk1
   uart_id: uart_bus
-  # The Desks height measured in the lowest position
   base_height: 66.4
-  #Optional correction factor, in case the height does not scale properly
   correction_term: 1.24836
 
 sensor:
