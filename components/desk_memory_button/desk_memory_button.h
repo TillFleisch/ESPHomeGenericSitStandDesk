@@ -24,5 +24,5 @@ namespace esphome
             uart::UARTDevice *uart_device;
         };
 
-    } // namespace output
+    } // namespace memory_button
 } // namespace esphome
