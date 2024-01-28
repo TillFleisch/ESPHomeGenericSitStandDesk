@@ -3,6 +3,11 @@ name: CI
 # yamllint disable-line rule:truthy
 on:
   workflow_dispatch:
+    inputs:
+      esphome_version:
+        description: "ESPHome PyPi Package version to use"
+        required: false
+        type: string
   push:
     branches: [main, dev]
 
@@ -66,6 +71,7 @@ jobs:
           source .venv/bin/activate
           pip install -U pip
           pip install -r requirements.txt
+          if [ ${{ github.event.inputs.esphome_version != '' }} == true ]; then pip install ESPHome==${{ github.event.inputs.esphome_version }}; else pip install -U ESPHome; fi
           echo "$GITHUB_WORKSPACE/.venv/bin" >> $GITHUB_PATH
           echo "VIRTUAL_ENV=$GITHUB_WORKSPACE/.venv" >> $GITHUB_ENV
         # yamllint enable rule:line-length
