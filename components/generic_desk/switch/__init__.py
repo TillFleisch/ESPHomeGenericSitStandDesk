@@ -11,9 +11,11 @@ CONF_DOWN = "down"
 desk_switch_ns = cg.esphome_ns.namespace("desk_switch")
 DeskSwitch = desk_switch_ns.class_("DeskSwitch", switch.Switch, cg.Component)
 
-SWITCH_CONFIG = switch.SWITCH_SCHEMA.extend(
-    {cv.GenerateID(): cv.declare_id(DeskSwitch)}
-).extend(cv.COMPONENT_SCHEMA)
+SWITCH_CONFIG = (
+    switch.switch_schema(DeskSwitch)
+    .extend({cv.GenerateID(): cv.declare_id(DeskSwitch)})
+    .extend(cv.COMPONENT_SCHEMA)
+)
 
 CONFIG_SCHEMA = cv.All(
     cv.Schema(
