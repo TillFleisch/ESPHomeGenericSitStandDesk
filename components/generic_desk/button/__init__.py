@@ -22,9 +22,11 @@ ID_CONFIGS = [
 memory_button_ns = cg.esphome_ns.namespace("memory_button")
 MemoryButton = memory_button_ns.class_("MemoryButton", button.Button, cg.Component)
 
-BUTTON_CONFIG = button.BUTTON_SCHEMA.extend(
-    {cv.GenerateID(): cv.declare_id(MemoryButton)}
-).extend(cv.COMPONENT_SCHEMA)
+BUTTON_CONFIG = (
+    button.button_schema(MemoryButton)
+    .extend({cv.GenerateID(): cv.declare_id(MemoryButton)})
+    .extend(cv.COMPONENT_SCHEMA)
+)
 
 CONFIG_SCHEMA = cv.All(
     cv.Schema(
